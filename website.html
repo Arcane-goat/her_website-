@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MINE</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      background:#0A090B;
+      color:#F3E9DC;
+      overflow-x:hidden;
+      font-family:'Inter',sans-serif;
+      position:relative;
+    }
+
+    /* FADED BACKGROUND IMAGE */
+
+    .bg-image{
+      position:fixed;
+      inset:0;
+
+      background:
+      linear-gradient(
+        rgba(255,20,147,.20),
+        rgba(255,20,147,.20)
+      ),
+      url('pink_bg.jpg');
+
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+
+      opacity:.28;
+
+      z-index:-5;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:
+      radial-gradient(circle at 20% 20%, rgba(255,45,85,.15), transparent 20%),
+      radial-gradient(circle at 80% 30%, rgba(255,45,85,.12), transparent 20%),
+      radial-gradient(circle at 50% 80%, rgba(255,255,255,.05), transparent 20%);
+      z-index:-2;
+    }
+
+    /* GLOWING PINK BORDER */
+
+    body::after{
+      content:'';
+      position:fixed;
+      inset:0;
+
+      pointer-events:none;
+
+      border:8px solid transparent;
+
+      border-image:
+      linear-gradient(
+        45deg,
+        #ff2d55,
+        #ff6b81,
+        #ff9bb0,
+        #ff2d55
+      ) 1;
+
+      box-shadow:
+      inset 0 0 80px rgba(255,45,85,.25),
+      0 0 60px rgba(255,45,85,.2);
+
+      z-index:9999;
+    }
+
+    /* PARTICLES */
+
+    .particles{
+      position:fixed;
+      inset:0;
+      overflow:hidden;
+      z-index:-1;
+    }
+
+    .particle{
+      position:absolute;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#ff2d55;
+      opacity:.4;
+      animation:float 10s linear infinite;
+    }
+
+    @keyframes float{
+      0%{
+        transform:translateY(100vh) scale(0);
+      }
+      100%{
+        transform:translateY(-10vh) scale(1.5);
+      }
+    }
+
+    /* NAVBAR */
+
+    nav{
+      position:fixed;
+      top:0;
+      width:100%;
+      z-index:1000;
+      backdrop-filter:blur(12px);
+      background:rgba(0,0,0,.25);
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+
+    .nav-container{
+      width:90%;
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 0;
+    }
+
+    .logo{
+      font-size:32px;
+      font-family:'Cormorant Garamond',serif;
+      color:#ff2d55;
+      letter-spacing:4px;
+      font-weight:bold;
+    }
+
+    nav ul{
+      display:flex;
+      gap:30px;
+      list-style:none;
+    }
+
+    nav a{
+      text-decoration:none;
+      color:#F3E9DC;
+      transition:.3s;
+      letter-spacing:2px;
+    }
+
+    nav a:hover{
+      color:#ff2d55;
+    }
+
+    /* HERO */
+
+    .hero{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:180px 40px 80px;
+      position:relative;
+    }
+
+    .hero-content{
+      max-width:900px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    /* HEART */
+
+    .orb{
+      position:relative;
+      width:180px;
+      height:180px;
+      margin-bottom:60px;
+      transform:rotate(-45deg);
+      animation:pulse 2s infinite;
+      background:linear-gradient(135deg,#ff2d55,#ff6b81);
+
+      box-shadow:
+      0 0 40px rgba(255,45,85,.7),
+      0 0 80px rgba(255,45,85,.5);
+    }
+
+    .orb::before,
+    .orb::after{
+      content:'';
+      position:absolute;
+      width:180px;
+      height:180px;
+      background:linear-gradient(135deg,#ff2d55,#ff6b81);
+      border-radius:50%;
+    }
+
+    .orb::before{
+      top:-90px;
+      left:0;
+    }
+
+    .orb::after{
+      top:0;
+      left:90px;
+    }
+
+    @keyframes pulse{
+
+      0%,100%{
+        transform:rotate(-45deg) scale(1);
+      }
+
+      50%{
+        transform:rotate(-45deg) scale(1.08);
+      }
+    }
+
+    /* HERO TEXT */
+
+    .hero h1{
+      font-size:90px;
+      font-family:'Cormorant Garamond',serif;
+      line-height:1.1;
+    }
+
+    .hero span{
+      color:#ff2d55;
+    }
+
+    .hero p{
+      margin-top:30px;
+      font-size:22px;
+      line-height:1.8;
+      opacity:.8;
+      max-width:900px;
+    }
+
+    /* BUTTON */
+
+    .btn{
+      display:inline-block;
+      margin-top:40px;
+      padding:18px 40px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#ff2d55,#ff6b81);
+      color:white;
+      text-decoration:none;
+      font-weight:bold;
+      letter-spacing:2px;
+      transition:.4s;
+      box-shadow:0 0 40px rgba(255,45,85,.5);
+    }
+
+    .btn:hover{
+      transform:scale(1.1);
+    }
+
+    /* MUSIC CONTROLS */
+
+    .music-controls{
+      position:fixed;
+
+      right:25px;
+      bottom:25px;
+
+      display:flex;
+      gap:12px;
+
+      padding:14px 18px;
+
+      border-radius:999px;
+
+      background:rgba(255,255,255,.08);
+
+      border:1px solid rgba(255,255,255,.15);
+
+      backdrop-filter:blur(10px);
+
+      box-shadow:0 0 30px rgba(255,45,85,.35);
+
+      z-index:99999;
+    }
+
+    .music-controls button{
+      width:45px;
+      height:45px;
+
+      border:none;
+      border-radius:50%;
+
+      cursor:pointer;
+
+      font-size:18px;
+
+      color:white;
+
+      background:linear-gradient(135deg,#ff2d55,#ff6b81);
+
+      transition:.3s;
+    }
+
+    .music-controls button:hover{
+      transform:scale(1.12);
+    }
+
+    /* SECTIONS */
+
+    section{
+      padding:120px 8%;
+    }
+
+    .title{
+      text-align:center;
+      font-size:65px;
+      margin-bottom:70px;
+      color:#ff2d55;
+      font-family:'Cormorant Garamond',serif;
+    }
+
+    /* GALLERY */
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:30px;
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      backdrop-filter:blur(10px);
+      transition:.5s;
+    }
+
+    .card:hover{
+      transform:translateY(-10px);
+    }
+
+    .card img{
+      width:100%;
+      height:450px;
+      object-fit:cover;
+      transition:.7s;
+    }
+
+    .card:hover img{
+      transform:scale(1.1);
+    }
+
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top,black,transparent);
+    }
+
+    .card-text{
+      position:absolute;
+      bottom:30px;
+      left:25px;
+      right:25px;
+      font-size:20px;
+      line-height:1.6;
+    }
+
+    /* WHISPERS */
+
+    .whispers{
+      text-align:center;
+    }
+
+    .whispers p{
+      font-size:34px;
+      margin:50px 0;
+      font-style:italic;
+      opacity:.85;
+      transition:.4s;
+    }
+
+    .whispers p:hover{
+      color:#ff2d55;
+      transform:scale(1.05);
+    }
+
+    /* FOOTER */
+
+    footer{
+      text-align:center;
+      padding:120px 20px;
+      background:linear-gradient(to bottom,#120E14,#000);
+    }
+
+    footer h2{
+      font-size:70px;
+      color:#ff2d55;
+      font-family:'Cormorant Garamond',serif;
+    }
+
+    footer p{
+      margin-top:25px;
+      font-size:22px;
+      opacity:.8;
+      line-height:1.8;
+    }
+
+    .heart{
+      font-size:120px;
+      margin-top:40px;
+      animation:heartbeat 3s infinite;
+    }
+
+    @keyframes heartbeat{
+      0%,100%{
+        transform:scale(1);
+      }
+      25%{
+        transform:scale(1.2);
+      }
+      50%{
+        transform:scale(1);
+      }
+      75%{
+        transform:scale(1.3);
+      }
+    }
+
+    /* MOBILE */
+
+    @media(max-width:768px){
+
+      .hero{
+        padding-top:160px;
+      }
+
+      .hero h1{
+        font-size:55px;
+      }
+
+      .title{
+        font-size:45px;
+      }
+
+      .whispers p{
+        font-size:24px;
+      }
+
+      footer h2{
+        font-size:50px;
+      }
+
+      nav ul{
+        gap:15px;
+        font-size:12px;
+      }
+
+      .orb{
+        width:130px;
+        height:130px;
+        margin-bottom:40px;
+      }
+
+      .orb::before,
+      .orb::after{
+        width:130px;
+        height:130px;
+      }
+
+      .orb::before{
+        top:-65px;
+      }
+
+      .orb::after{
+        left:65px;
+      }
+
+      .music-controls{
+        right:12px;
+        bottom:12px;
+        padding:10px 12px;
+      }
+
+      .music-controls button{
+        width:38px;
+        height:38px;
+        font-size:15px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- FADED BACKGROUND -->
+
+  <div class="bg-image"></div>
+
+  <!-- BACKGROUND MUSIC -->
+
+  <audio autoplay loop muted id="bgMusic">
+    <source src="ik_aisa.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- MUSIC CONTROL BAR -->
+
+  <div class="music-controls">
+
+    <button onclick="toggleMusic()">⏯</button>
+
+    <button onclick="volumeDown()">🔉</button>
+
+    <button onclick="volumeUp()">🔊</button>
+
+  </div>
+
+  <!-- PARTICLES -->
+
+  <div class="particles" id="particles"></div>
+
+  <!-- NAVBAR -->
+
+  <nav>
+
+    <div class="nav-container">
+
+      <div class="logo"> PAARO </div>
+
+      <ul>
+        <li><a href="#memories">Memories</a></li>
+        <li><a href="#whispers">Whispers</a></li>
+        <li><a href="#eternal">Eternal</a></li>
+      </ul>
+
+    </div>
+
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="orb"></div>
+
+      <h1>
+        You Are My
+        <br>
+        <span>Eternal Feeling</span>
+      </h1>
+
+      <p>
+        A cinematic world built from emotions, memories,
+        heartbeat echoes, and the silent feelings I could never explain.
+      </p>
+
+      <a href="#memories" class="btn">
+        Enter My Heart ❤️
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- GALLERY -->
+
+  <section id="memories">
+
+    <h2 class="title">Memory Gallery</h2>
+
+    <div class="gallery">
+
+      <div class="card">
+        <img src="https://cdn.discordapp.com/attachments/1453658134210936970/1505140154569068666/2026-05-16_14-59-21_982.jpg?ex=6a098a81&is=6a083901&hm=dcabe94dd0bb603cd2099f66a60d55245d1463950ff2fe361b97b212e4c07584&">
+        <div class="overlay"></div>
+        <div class="card-text">
+          Every moment with you feels like a beautiful dream.
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.discordapp.com/attachments/1453658134210936970/1505139968899547207/2026-05-16_14-58-34_809.jpg?ex=6a098a54&is=6a0838d4&hm=f2a87d435067e89ab3678e7819b6483a90fec248f91c67173b7cea95307bc685&">
+        <div class="overlay"></div>
+        <div class="card-text">
+          Your smile is my favorite place in the universe.
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.discordapp.com/attachments/1464960523312304191/1505115574064250921/image.png?ex=6a09739c&is=6a08221c&hm=a757056d977a4e66666f87531ff833589455c153b8c834d5c4086676091c9c78&">
+        <div class="overlay"></div>
+        <div class="card-text">
+          Even silence feels magical when I’m with you.
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- WHISPERS -->
+
+  <section id="whispers" class="whispers">
+
+    <h2 class="title">Whisper Archive</h2>
+
+    <p>“Even the stars look dim beside your eyes.”</p>
+
+    <p>“If love had a sound, it would echo your name forever.”</p>
+
+    <p>“You turned my darkest nights into velvet skies.”</p>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer id="eternal">
+
+    <h2>Forever Starts Here</h2>
+
+    <p>
+      Some feelings never fade. Some memories never disappear.
+      And some hearts are meant to stay connected forever.
+    </p>
+
+    <div class="heart">❤️</div>
+
+    <a href="#" class="btn">Eternal Love</a>
+
+  </footer>
+
+  <!-- MUSIC SCRIPT -->
+
+  <script>
+
+    const music = document.getElementById('bgMusic');
+
+    window.addEventListener('click', () => {
+
+      music.muted = false;
+      music.play();
+
+    }, { once:true });
+
+    function toggleMusic(){
+
+      if(music.paused){
+
+        music.play();
+
+      }else{
+
+        music.pause();
+      }
+    }
+
+    function volumeUp(){
+
+      if(music.volume < 1){
+
+        music.volume += 0.1;
+      }
+    }
+
+    function volumeDown(){
+
+      if(music.volume > 0){
+
+        music.volume -= 0.1;
+      }
+    }
+
+  </script>
+
+  <!-- PARTICLES SCRIPT -->
+
+  <script>
+
+    const particles = document.getElementById('particles');
+
+    for(let i=0;i<50;i++){
+
+      const particle = document.createElement('div');
+
+      particle.classList.add('particle');
+
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.animationDuration = 5 + Math.random() * 10 + 's';
+      particle.style.opacity = Math.random();
+
+      particles.appendChild(particle);
+    }
+
+  </script>
+
+</body>
+</html>
